@@ -20,12 +20,6 @@ class MainViewModel @Inject constructor(var urunlerRepository : urunlerRepositor
         loadUrunler()
     }
 
-    fun sepettenSil(id: Int, kullaniciAdi: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            urunlerRepository.sepettenSil(id, kullaniciAdi)
-            loadUrunler()
-        }
-    }
 
     fun sepeteUrunEkle(
         ad: String,
@@ -50,9 +44,4 @@ class MainViewModel @Inject constructor(var urunlerRepository : urunlerRepositor
         }
     }
 
-//    fun search(searchText:String) {
-//        CoroutineScope(Dispatchers.Main).launch {
-//            toDosList.value = toDosRepository.search(searchText)
-//        }
-//    }
 }

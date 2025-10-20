@@ -1,6 +1,7 @@
 package com.example.bootcampmarket.data.repos
 
 import com.example.bootcampmarket.data.datasources.UrunlerDatasource
+import com.example.bootcampmarket.data.entity.SepetUrunleri
 import com.example.bootcampmarket.data.entity.Urunler
 
 class urunlerRepository (var urunlerDatasource : UrunlerDatasource) {
@@ -20,11 +21,10 @@ class urunlerRepository (var urunlerDatasource : UrunlerDatasource) {
 
     suspend fun loadUrunler() : List<Urunler> = urunlerDatasource.loadUrunler()
 
-    suspend fun loadUrunById(id: Int) : Urunler? = urunlerDatasource.loadUrunById(id)
+    suspend fun loadUrunById(id: Int) : Urunler = urunlerDatasource.loadUrunById(id)
 
-    suspend fun getSepet(kullaniciAdi: String) : List<Urunler> = urunlerDatasource.getSepet(kullaniciAdi)
+    suspend fun postSepet(kullaniciAdi: String) : List<SepetUrunleri> = urunlerDatasource.postSepet(kullaniciAdi)
 
-    suspend fun postSepet(kullaniciAdi: String) : List<Urunler> = urunlerDatasource.postSepet(kullaniciAdi)
+    suspend fun adetGuncelle(sepetUrunu: SepetUrunleri, yeniAdet: Int, kullaniciAdi: String) = urunlerDatasource.adetGuncelle(sepetUrunu, yeniAdet, kullaniciAdi)
 
-//    suspend fun search(searchText:String) : List<Urunler> = urunlerDatasource.search(searchText)
 }

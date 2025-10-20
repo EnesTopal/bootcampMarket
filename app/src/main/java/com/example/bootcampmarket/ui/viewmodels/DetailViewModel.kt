@@ -1,6 +1,7 @@
 package com.example.bootcampmarket.ui.viewmodels
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,18 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(var urunlerRepository : urunlerRepository) : ViewModel() {
-    var urunlerList = MutableLiveData<List<Urunler>>()
+    val urun = MutableLiveData<Urunler?>(null)
 
-    init {
-        loadUrunler()
-    }
-
-    fun sepettenSil(id: Int, kullaniciAdi: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            urunlerRepository.sepettenSil(id, kullaniciAdi)
-            loadUrunler()
-        }
-    }
 
     fun sepeteUrunEkle(
         ad: String,
@@ -40,26 +31,15 @@ class DetailViewModel @Inject constructor(var urunlerRepository : urunlerReposit
         CoroutineScope(Dispatchers.Main).launch {
             urunlerRepository.sepeteUrunEkle(ad, resim, kategori, fiyat, marka, siparisAdeti, kullaniciAdi)
             Toast.makeText(context, "Ürün sepete eklendi", Toast.LENGTH_SHORT).show()
-            loadUrunler()
         }
     }
 
-    fun loadUrunler() {
+    fun loadUrunById(id: Int) {
         CoroutineScope(Dispatchers.Main).launch {
-            urunlerList.value = urunlerRepository.loadUrunler()
+            urun.value = urunlerRepository.loadUrunById(id)
         }
+        Log.d("DetailViewModel", "loadUrunById called with id: $id")
+        Log.d("DetailViewModel", "Urun value after load: ${urun.value}")
     }
 
-    fun loadUrunById(id: Int, onResult: (Urunler?) -> Unit) {
-        CoroutineScope(Dispatchers.Main).launch {
-            val urun = urunlerRepository.loadUrunById(id)
-            onResult(urun)
-        }
-    }
-
-//    fun search(searchText:String) {
-//        CoroutineScope(Dispatchers.Main).launch {
-//            toDosList.value = toDosRepository.search(searchText)
-//        }
-//    }
 }

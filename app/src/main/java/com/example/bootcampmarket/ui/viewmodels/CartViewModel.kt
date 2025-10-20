@@ -1,10 +1,9 @@
 package com.example.bootcampmarket.ui.viewmodels
 
-import android.content.Context
-import android.widget.Toast
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.bootcampmarket.data.entity.Urunler
+import com.example.bootcampmarket.data.entity.SepetUrunleri
 import com.example.bootcampmarket.data.repos.urunlerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -13,25 +12,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CartViewModel @Inject constructor(var urunlerRepository : urunlerRepository, sepetKullanici: String) : ViewModel() {
-    var urunlerList = MutableLiveData<List<Urunler>>()
+class CartViewModel @Inject constructor(var urunlerRepository : urunlerRepository) : ViewModel() {
+    val urunlerList = MutableLiveData<List<SepetUrunleri>>(emptyList())
 
     init {
-        getSepet(sepetKullanici)
+        postSepet("enes_topal")
+        Log.d("CartViewModel", "${urunlerList.value}")
     }
 
     fun sepettenSil(id: Int, kullaniciAdi: String) {
         CoroutineScope(Dispatchers.Main).launch {
             urunlerRepository.sepettenSil(id, kullaniciAdi)
-            getSepet(kullaniciAdi)
+            postSepet(kullaniciAdi)
         }
     }
 
-    fun getSepet(kullaniciAdi: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            urunlerList.value = urunlerRepository.getSepet(kullaniciAdi)
-        }
-    }
 
     fun postSepet(kullaniciAdi: String) {
         CoroutineScope(Dispatchers.Main).launch {
@@ -39,9 +34,12 @@ class CartViewModel @Inject constructor(var urunlerRepository : urunlerRepositor
         }
     }
 
-//    fun search(searchText:String) {
-//        CoroutineScope(Dispatchers.Main).launch {
-//            toDosList.value = toDosRepository.search(searchText)
-//        }
-//    }
+    fun adetGuncelle(sepetUrunu: SepetUrunleri, yeniAdet: Int, kullaniciAdi: String) {
+        Log.d("CartViewModel", "adetGuncelle called with yeniAdet: $yeniAdet")
+        CoroutineScope(Dispatchers.Main).launch {
+            urunlerRepository.adetGuncelle(sepetUrunu, yeniAdet, kullaniciAdi)
+            postSepet(kullaniciAdi)
+        }
+    }
+
 }
