@@ -1,6 +1,7 @@
 package com.example.bootcampmarket.retrofit
 
 import com.example.bootcampmarket.data.entity.CRUDResponse
+import com.example.bootcampmarket.data.entity.Urunler
 import com.example.bootcampmarket.data.entity.UrunlerResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -15,6 +16,11 @@ interface UrunlerDao {
     @GET("tumUrunleriGetir.php")
     suspend fun loadTumUrunler(): UrunlerResponse
 
+    suspend fun loadUrunById(id: Int): Urunler? {
+        val response = loadTumUrunler()
+        return response.urunler_sepeti.firstOrNull { it.id == id }
+    }
+
     @GET("urunler/sepettekiUrunleriGetir.php")
     suspend fun getSepet(@Query("kullaniciAdi") kullaniciAdi: String): UrunlerResponse
 
@@ -22,28 +28,24 @@ interface UrunlerDao {
     @POST("urunler/sepettekiUrunleriGetir.php")
     suspend fun postSepet(@Field("kullaniciAdi") kullaniciAdi: String): UrunlerResponse
 
-    @POST("toDos/insert.php")
+    @POST("sepeteUrunEkle.php")
     @FormUrlEncoded
-    suspend fun save(
+    suspend fun sepeteUrunEkle(
         @Field("ad") ad: String,
         @Field("resim") resim: String,
         @Field("kategori") kategori: String,
         @Field("fiyat") fiyat: Int,
         @Field("marka") marka: String,
         @Field("siparisAdeti") siparisAdeti: Int,
-        @Field("kullaniciAdi") kullaniciAdi:String
+        @Field("kullaniciAdi") kullaniciAdi: String
     ): CRUDResponse
 
-    @POST("toDos/update.php")
+    @POST("sepettenUrunSil.php")
     @FormUrlEncoded
-    suspend fun update(
-        @Field("id") id: Int,
-        @Field("name") name: String
+    suspend fun sepettenSil(
+        @Field("sepetId") id: Int,
+        @Field("kullaniciAdi") kullaniciAdi: String
     ): CRUDResponse
-
-    @POST("toDos/delete.php")
-    @FormUrlEncoded
-    suspend fun delete(@Field("id") id: Int): CRUDResponse
 
 //    @POST("toDos/search.php")
 //    @FormUrlEncoded

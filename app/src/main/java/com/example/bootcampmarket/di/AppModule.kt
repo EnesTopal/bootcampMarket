@@ -1,7 +1,9 @@
 package com.example.bootcampmarket.di
 
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.bootcampmarket.data.datasources.UrunlerDatasource
-import com.example.bootcampmarket.data.repos.ToDosRepository
+import com.example.bootcampmarket.data.repos.urunlerRepository
 import com.example.bootcampmarket.retrofit.UrunlerDao
 import dagger.Module
 import dagger.Provides
@@ -16,8 +18,8 @@ import javax.inject.Singleton
 class AppModule {
     @Provides
     @Singleton
-    fun provideUrunlerRepository(urunlerDatasource: UrunlerDatasource) : ToDosRepository {
-        return ToDosRepository(urunlerDatasource)
+    fun provideUrunlerRepository(urunlerDatasource: UrunlerDatasource) : urunlerRepository {
+        return urunlerRepository(urunlerDatasource)
     }
 
     @Provides
