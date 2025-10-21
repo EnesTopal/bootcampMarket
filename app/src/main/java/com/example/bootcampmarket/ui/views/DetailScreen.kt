@@ -32,6 +32,7 @@ import com.example.bootcampmarket.ui.components.CustomTopAppBar
 import com.example.bootcampmarket.ui.viewmodels.DetailViewModel
 import com.skydoves.landscapist.glide.GlideImage
 import com.example.bootcampmarket.R
+import com.example.bootcampmarket.ui.components.CustomBottomBar
 
 @Composable
 fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel, urun : Urunler) {
@@ -41,7 +42,8 @@ fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel,
 
 
     Scaffold(
-        topBar = { CustomTopAppBar(title = "Ürün Detayı") }
+        topBar = { CustomTopAppBar(title = "Ürün Detayı") },
+        bottomBar = { CustomBottomBar(navController) }
     ) { padding ->
         urunDetail?.let { u ->
             Column(

@@ -18,6 +18,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.bootcampmarket.ui.components.CustomBottomBar
 import com.example.bootcampmarket.ui.components.CustomTopAppBar
 import com.example.bootcampmarket.ui.components.SepetCard
 import com.example.bootcampmarket.ui.viewmodels.CartViewModel
@@ -40,7 +41,8 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
     }
 
     Scaffold(
-        topBar = { CustomTopAppBar(title = "Sepetim") }
+        topBar = { CustomTopAppBar(title = "Sepetim") },
+        bottomBar = { CustomBottomBar(navController) }
     ) { padding ->
         Column(
             modifier = Modifier

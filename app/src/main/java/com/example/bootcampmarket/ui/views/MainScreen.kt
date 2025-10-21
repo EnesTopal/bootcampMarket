@@ -18,6 +18,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.bootcampmarket.ui.components.CustomBottomBar
 import com.example.bootcampmarket.ui.components.CustomTopAppBar
 import com.example.bootcampmarket.ui.components.UrunCard
 import com.example.bootcampmarket.ui.viewmodels.MainViewModel
@@ -33,11 +34,7 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel) {
 
     Scaffold(
         topBar = { CustomTopAppBar(title = "Bootcamp Market") },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate("cartScreen") }) {
-                Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "Sepet")
-            }
-        }
+        bottomBar = { CustomBottomBar(navController) }
     ) { padding ->
         if (urunler.value.isEmpty()) {
             Text(
