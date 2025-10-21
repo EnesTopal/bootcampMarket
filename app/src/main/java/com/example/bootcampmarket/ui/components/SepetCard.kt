@@ -24,11 +24,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.bootcampmarket.data.entity.SepetUrunleri
 import com.skydoves.landscapist.glide.GlideImage
+import com.example.bootcampmarket.R
 
 
 @Composable
@@ -88,14 +90,17 @@ fun SepetCard(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         IconButton(onClick = if (urun.siparisAdeti > 1) onAzalt else onSil) {
-                            Icon(
-                                imageVector = if (urun.siparisAdeti > 1) {
-                                    Icons.AutoMirrored.Filled.ArrowBack
-                                } else {
-                                    Icons.Default.Delete
-                                },
-                                contentDescription = if (urun.siparisAdeti > 1) "Azalt" else "Sil"
-                            )
+                            if (urun.siparisAdeti > 1) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.remove),
+                                    contentDescription = "Azalt"
+                                )
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Sil"
+                                )
+                            }
                         }
                         Text(
                             text = "${urun.siparisAdeti}",
