@@ -32,7 +32,7 @@ fun CustomBottomBar(navController: NavController) {
                     contentDescription = "cart"
                 )
             }
-            IconButton(onClick = {}) {
+            IconButton(onClick = {navController.navigate("favoritesScreen")}) {
                 Icon(
                     painter = painterResource(R.drawable.heart_regular_full),
                     contentDescription = "favorites"

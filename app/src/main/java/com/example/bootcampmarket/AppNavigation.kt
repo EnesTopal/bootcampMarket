@@ -10,8 +10,10 @@ import com.example.bootcampmarket.data.entity.Urunler
 import com.example.bootcampmarket.ui.viewmodels.MainViewModel
 import com.example.bootcampmarket.ui.viewmodels.DetailViewModel
 import com.example.bootcampmarket.ui.viewmodels.CartViewModel
+import com.example.bootcampmarket.ui.viewmodels.FavoritiesViewModel
 import com.example.bootcampmarket.ui.views.CartScreen
 import com.example.bootcampmarket.ui.views.DetailScreen
+import com.example.bootcampmarket.ui.views.FavoritesScreen
 import com.example.bootcampmarket.ui.views.MainScreen
 import com.google.gson.Gson
 
@@ -19,7 +21,8 @@ import com.google.gson.Gson
 fun AppNavigation(
     mainViewModel: MainViewModel,
     cartViewModel: CartViewModel,
-    detailViewModel: DetailViewModel
+    detailViewModel: DetailViewModel,
+    favoritiesViewModel: FavoritiesViewModel
 ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "mainScreen") {
@@ -41,20 +44,11 @@ fun AppNavigation(
         composable("cartScreen") {
             CartScreen(navController = navController, cartViewModel = cartViewModel)
         }
+
+        composable("favoritesScreen") {
+            FavoritesScreen(navController = navController, favoritiesViewModel = favoritiesViewModel)
+        }
     }
 
 }
 
-
-//        composable(
-//            "updateScreen/{toDo}",
-//            arguments = listOf(
-//                navArgument("toDo") { type = NavType.StringType }
-//            )
-//        ) {
-//            val jsonToDo = it.arguments?.getString("toDo")
-//            val toDo = Gson().fromJson(jsonToDo, ToDos::class.java)
-//            if (toDo != null) {
-//                UpdateScreen(toDo = toDo, updateViewModel = updateViewModel)
-//            }
-//        }

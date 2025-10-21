@@ -17,7 +17,6 @@ class CartViewModel @Inject constructor(var urunlerRepository : urunlerRepositor
 
     init {
         postSepet("enes_topal")
-        Log.d("CartViewModel", "${urunlerList.value}")
     }
 
     fun sepettenSil(id: Int, kullaniciAdi: String) {

@@ -15,24 +15,27 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class FavoritiesViewModel @Inject constructor(
     var urunlerRepository: urunlerRepository,
     var favorilerRepository: FavorilerRepository
 ) : ViewModel() {
-    var urunlerList = MutableLiveData<List<Urunler>>()
+    var favorilerList = MutableLiveData<List<FavoriUrunler>>()
 
     init {
-        loadUrunler()
+        loadFavoriler(kullaniciAdi = "enes_topal")
     }
 
-    fun addFavoriler(
-        favori: FavoriUrunler
-    ){
+    fun loadFavoriler(kullaniciAdi: String) {
         CoroutineScope(Dispatchers.Main).launch {
-            favorilerRepository.save(favori)
+            favorilerList.value = favorilerRepository.loadFavoriler(kullaniciAdi)
         }
     }
 
+    fun removeFavoriler(urunId: Int, kullaniciAdi: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            favorilerRepository.delete(urunId, kullaniciAdi)
+        }
+    }
 
     fun sepeteUrunEkle(
         ad: String,
@@ -55,33 +58,9 @@ class MainViewModel @Inject constructor(
                 kullaniciAdi
             )
             Toast.makeText(context, "Ürün sepete eklendi", Toast.LENGTH_SHORT).show()
-            loadUrunler()
+            loadFavoriler("enes_topal")
         }
     }
 
-    fun loadUrunler() {
-        CoroutineScope(Dispatchers.Main).launch {
-            urunlerList.value = urunlerRepository.loadUrunler()
-        }
-    }
-
-    fun favorilerTablosundaVarmi(id: Int, kullaniciAdi: String, onResult: (Boolean) -> Unit) {
-        CoroutineScope(Dispatchers.Main).launch {
-            val exists = favorilerRepository.favorilerTablosundaVarmi(id, kullaniciAdi)
-            onResult(exists)
-        }
-    }
-
-    fun saveFavori(favori: FavoriUrunler) {
-        CoroutineScope(Dispatchers.Main).launch {
-            favorilerRepository.save(favori)
-        }
-    }
-
-    fun removeFavoriler(id: Int, kullaniciAdi: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            favorilerRepository.delete(id, kullaniciAdi)
-        }
-    }
 
 }

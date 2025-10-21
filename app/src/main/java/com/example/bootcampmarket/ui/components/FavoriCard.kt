@@ -1,5 +1,6 @@
 package com.example.bootcampmarket.ui.components
 
+import com.example.bootcampmarket.data.entity.FavoriUrunler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -30,19 +30,29 @@ import com.example.bootcampmarket.data.entity.Urunler
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun UrunCard(
-    urun: Urunler,
+fun FavoriCard(
+    favoriUrun: FavoriUrunler,
     favoriChecked: Boolean,
     modifier: Modifier = Modifier,
     onClick: (Urunler) -> Unit,
     onAddToCart: (Urunler) -> Unit,
-    onAddFavori: (Urunler) -> Unit,
     onRemoveFavori: () -> Unit
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick(urun) },
+            .clickable {
+                onClick(
+                    Urunler(
+                        id = favoriUrun.id,
+                        ad = favoriUrun.ad,
+                        resim = favoriUrun.resim,
+                        kategori = favoriUrun.kategori,
+                        fiyat = favoriUrun.fiyat,
+                        marka = favoriUrun.marka
+                    )
+                )
+            },
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
@@ -56,7 +66,7 @@ fun UrunCard(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
                 modifier = Modifier.size(84.dp)
             ) {
-                val url = "http://kasimadalan.pe.hu/urunler/resimler/${urun.resim}"
+                val url = "http://kasimadalan.pe.hu/urunler/resimler/${favoriUrun.resim}"
                 GlideImage(
                     imageModel = url,
                     modifier = Modifier
@@ -68,48 +78,48 @@ fun UrunCard(
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = urun.ad,
+                    text = favoriUrun.ad,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = urun.marka,
+                    text = favoriUrun.marka,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "${urun.fiyat} ₺",
+                    text = "${favoriUrun.fiyat} ₺",
                     style = MaterialTheme.typography.titleSmall
                 )
             }
 
             Column(verticalArrangement = Arrangement.SpaceEvenly) {
                 IconButton(onClick = {
-                    if (favoriChecked){
-                        onRemoveFavori()
-                    } else {
-                        onAddFavori(urun)
-                    }
+                    onRemoveFavori()
                 }) {
-                    if (favoriChecked) {
-                        Icon(
-                            imageVector = Icons.Filled.Favorite,
-                            contentDescription = "Favori",
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.Default.FavoriteBorder,
-                            contentDescription = "Favori degil",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Filled.Favorite,
+                        contentDescription = "Favori",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+
                 }
-                Button(onClick = { onAddToCart(urun) }) {
+                Button(onClick = {
+                    onAddToCart(
+                        Urunler(
+                            id = favoriUrun.id,
+                            ad = favoriUrun.ad,
+                            resim = favoriUrun.resim,
+                            kategori = favoriUrun.kategori,
+                            fiyat = favoriUrun.fiyat,
+                            marka = favoriUrun.marka
+                        )
+                    )
+                }) {
                     Text(text = "Sepete Ekle")
                 }
             }

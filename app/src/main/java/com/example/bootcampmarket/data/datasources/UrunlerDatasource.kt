@@ -33,7 +33,6 @@ class UrunlerDatasource(var urunlerDao: UrunlerDao) {
 
     suspend fun loadUrunler(): List<Urunler> = withContext(Dispatchers.IO) {
         try {
-            Log.d("UrunlerDatasource", "loadUrunler called")
             return@withContext urunlerDao.loadTumUrunler().urunler
         } catch (e: Exception) {
             return@withContext emptyList<Urunler>()

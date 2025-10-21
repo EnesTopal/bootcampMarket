@@ -37,7 +37,6 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
 //                Log.d("CartCleaning", "Silindi")
 //                cartViewModel.sepettenSil(it.id, "enes_topal") }
         toplamTutar = urunler.value?.sumOf { (it.fiyat ?: 0) * (it.siparisAdeti ?: 0) } ?: 0
-        Log.d("CartViewModel", "${urunler.value}")
     }
 
     Scaffold(
