@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import com.example.bootcampmarket.ui.components.CustomTopAppBar
 import com.example.bootcampmarket.ui.components.UrunCard
 import com.example.bootcampmarket.ui.viewmodels.MainViewModel
+import com.google.gson.Gson
 
 @Composable
 fun MainScreen(navController: NavController, mainViewModel: MainViewModel) {
@@ -58,7 +59,8 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel) {
                         urun = urun,
                         modifier = Modifier.padding(bottom = 12.dp),
                         onClick = { clicked ->
-                            navController.navigate("detailScreen/${clicked.id}")
+                            val urunJson = Gson().toJson(clicked)
+                            navController.navigate("detailScreen/${urunJson}")
                         },
                         onAddToCart = { added ->
                             mainViewModel.sepeteUrunEkle(

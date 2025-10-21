@@ -40,15 +40,6 @@ class UrunlerDatasource(var urunlerDao: UrunlerDao) {
         }
     }
 
-    suspend fun loadUrunById(id: Int): Urunler = withContext(Dispatchers.IO) {
-        try {
-            var response = urunlerDao.loadTumUrunler().urunler
-            return@withContext response.firstOrNull { it.id == id } ?: Urunler(0, "", "", "", 0, "")
-        }
-        catch (e: Exception) {
-            return@withContext Urunler(0,"","","",0,"")
-        }
-    }
 
     suspend fun postSepet(kullaniciAdi: String): List<SepetUrunleri> = withContext(Dispatchers.IO) {
         try {

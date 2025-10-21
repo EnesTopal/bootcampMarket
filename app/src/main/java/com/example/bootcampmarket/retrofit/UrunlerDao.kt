@@ -16,10 +16,6 @@ interface UrunlerDao {
     @GET("tumUrunleriGetir.php")
     suspend fun loadTumUrunler(): UrunlerResponse
 
-    suspend fun loadUrunById(id: Int): Urunler? {
-        val response = loadTumUrunler().urunler
-        return response.find { it.id == id }
-    }
 
     @FormUrlEncoded
     @POST("sepettekiUrunleriGetir.php")

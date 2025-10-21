@@ -20,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
@@ -30,24 +29,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.bootcampmarket.data.entity.Urunler
 import com.example.bootcampmarket.ui.components.CustomTopAppBar
 import com.example.bootcampmarket.ui.viewmodels.DetailViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel, id: Int) {
-    val urun by detailViewModel.urun.observeAsState()
+fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel, urun : Urunler) {
+    val urunDetail = urun
     val adetCounter = remember { mutableIntStateOf(1) }
 
-    LaunchedEffect(true) {
-        detailViewModel.loadUrunById(id)
-    }
 
 
     Scaffold(
         topBar = { CustomTopAppBar(title = "Ürün Detayı") }
     ) { padding ->
-        urun?.let { u ->
+        urunDetail?.let { u ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()

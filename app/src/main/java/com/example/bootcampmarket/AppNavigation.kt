@@ -28,13 +28,14 @@ fun AppNavigation(
         }
 
         composable(
-            "detailScreen/{id}",
+            "detailScreen/{urun}",
             arguments = listOf(
-                navArgument("id") { type = NavType.IntType }
+                navArgument("urun") { type = NavType.StringType }
             )
         ) {
-            val id = it.arguments?.getInt("id") ?: return@composable
-            DetailScreen(navController = navController, detailViewModel = detailViewModel, id = id)
+            val jsonUrun = it.arguments?.getString("urun")
+            val urun = Gson().fromJson(jsonUrun, Urunler::class.java)
+            DetailScreen(navController = navController, detailViewModel = detailViewModel, urun = urun)
         }
 
         composable("cartScreen") {

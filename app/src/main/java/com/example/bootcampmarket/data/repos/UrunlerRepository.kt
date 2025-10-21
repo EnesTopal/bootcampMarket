@@ -21,7 +21,6 @@ class urunlerRepository (var urunlerDatasource : UrunlerDatasource) {
 
     suspend fun loadUrunler() : List<Urunler> = urunlerDatasource.loadUrunler()
 
-    suspend fun loadUrunById(id: Int) : Urunler = urunlerDatasource.loadUrunById(id)
 
     suspend fun postSepet(kullaniciAdi: String) : List<SepetUrunleri> = urunlerDatasource.postSepet(kullaniciAdi)
 

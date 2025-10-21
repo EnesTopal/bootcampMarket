@@ -1,7 +1,6 @@
 package com.example.bootcampmarket.ui.viewmodels
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,12 +33,5 @@ class DetailViewModel @Inject constructor(var urunlerRepository : urunlerReposit
         }
     }
 
-    fun loadUrunById(id: Int) {
-        CoroutineScope(Dispatchers.Main).launch {
-            urun.value = urunlerRepository.loadUrunById(id)
-        }
-        Log.d("DetailViewModel", "loadUrunById called with id: $id")
-        Log.d("DetailViewModel", "Urun value after load: ${urun.value}")
-    }
 
 }
