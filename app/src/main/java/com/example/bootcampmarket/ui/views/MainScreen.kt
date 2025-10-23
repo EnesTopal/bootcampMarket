@@ -1,5 +1,7 @@
 package com.example.bootcampmarket.ui.views
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -26,14 +28,22 @@ import com.google.gson.Gson
 @Composable
 fun MainScreen(navController: NavController, mainViewModel: MainViewModel) {
     val urunler = mainViewModel.urunlerList.observeAsState(listOf())
+    val profiller = mainViewModel.profiller.observeAsState(listOf())
+    val seciliProfil = mainViewModel.seciliProfil.observeAsState("")
 
 
     LaunchedEffect(true) {
         mainViewModel.loadUrunler()
+        mainViewModel.getProfiller()
+        mainViewModel.seciliProfiliGetir()
     }
 
     Scaffold(
-        topBar = { CustomTopAppBar(title = "Bootcamp Market") },
+        topBar = { CustomTopAppBar(title = "Bootcamp Market", profiller.value, onProfileSelected = {
+            mainViewModel.secilenProfiliAta(it)
+            mainViewModel.loadUrunler()
+            Toast.makeText(navController.context, "Seçilen Profil: ${it}", Toast.LENGTH_SHORT).show()
+        }) },
         bottomBar = { CustomBottomBar(navController) }
     ) { padding ->
         if (urunler.value.isEmpty()) {
@@ -54,7 +64,7 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel) {
                 items(urunler.value) { urun ->
                     val favori = remember(urun.id) { mutableStateOf(false) }
                     LaunchedEffect(key1 = urun.id) {
-                        mainViewModel.favorilerTablosundaVarmi(urun.id, "enes_topal", onResult = {
+                        mainViewModel.favorilerTablosundaVarmi(urun.id, seciliProfil.value, onResult = {
                             favori.value = it
                         })
                     }
@@ -67,6 +77,7 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel) {
                             navController.navigate("detailScreen/${urunJson}")
                         },
                         onAddToCart = { added ->
+                            Log.d("Profile", "${seciliProfil.value}")
                             mainViewModel.sepeteUrunEkle(
                                 ad = added.ad,
                                 resim = added.resim,
@@ -74,7 +85,7 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel) {
                                 fiyat = added.fiyat,
                                 marka = added.marka,
                                 siparisAdeti = 1,
-                                kullaniciAdi = "enes_topal",
+                                kullaniciAdi = seciliProfil.value,
                                 context = navController.context
                             )
                         },
@@ -88,14 +99,14 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel) {
                                 kategori = urun.kategori,
                                 fiyat = urun.fiyat,
                                 marka = urun.marka,
-                                kullaniciAdi = "enes_topal"
+                                kullaniciAdi = seciliProfil.value
                             )
                             mainViewModel.addFavoriler(favoriUrun)
                             mainViewModel.loadUrunler()
                         },
                         onRemoveFavori = {
                             favori.value = false
-                            mainViewModel.removeFavoriler(urun.id, "enes_topal")
+                            mainViewModel.removeFavoriler(urun.id, seciliProfil.value)
                             mainViewModel.loadUrunler()
                         }
                     )

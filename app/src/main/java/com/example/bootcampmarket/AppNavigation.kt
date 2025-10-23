@@ -11,10 +11,12 @@ import com.example.bootcampmarket.ui.viewmodels.MainViewModel
 import com.example.bootcampmarket.ui.viewmodels.DetailViewModel
 import com.example.bootcampmarket.ui.viewmodels.CartViewModel
 import com.example.bootcampmarket.ui.viewmodels.FavoritiesViewModel
+import com.example.bootcampmarket.ui.viewmodels.ProfilesViewModel
 import com.example.bootcampmarket.ui.views.CartScreen
 import com.example.bootcampmarket.ui.views.DetailScreen
 import com.example.bootcampmarket.ui.views.FavoritesScreen
 import com.example.bootcampmarket.ui.views.MainScreen
+import com.example.bootcampmarket.ui.views.ProfilesScreen
 import com.google.gson.Gson
 
 @Composable
@@ -22,7 +24,8 @@ fun AppNavigation(
     mainViewModel: MainViewModel,
     cartViewModel: CartViewModel,
     detailViewModel: DetailViewModel,
-    favoritiesViewModel: FavoritiesViewModel
+    favoritiesViewModel: FavoritiesViewModel,
+    profilesViewModel: ProfilesViewModel
 ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "mainScreen") {
@@ -47,6 +50,10 @@ fun AppNavigation(
 
         composable("favoritesScreen") {
             FavoritesScreen(navController = navController, favoritiesViewModel = favoritiesViewModel)
+        }
+
+        composable("profilesScreen") {
+             ProfilesScreen(navController = navController, profilesViewModel = profilesViewModel)
         }
     }
 

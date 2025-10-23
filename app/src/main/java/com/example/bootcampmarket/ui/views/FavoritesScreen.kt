@@ -1,5 +1,6 @@
 package com.example.bootcampmarket.ui.views
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -23,15 +24,25 @@ import com.google.gson.Gson
 @Composable
 fun FavoritesScreen(navController: NavController, favoritiesViewModel: FavoritiesViewModel) {
     val favoriler = favoritiesViewModel.favorilerList.observeAsState(listOf())
+    val profiller = favoritiesViewModel.profiller.observeAsState(listOf())
+    val seciliProfil = favoritiesViewModel.seciliProfil.observeAsState("")
 
     LaunchedEffect(true) {
-        favoritiesViewModel.loadFavoriler("enes_topal")
+        favoritiesViewModel.getProfiller()
+        favoritiesViewModel.loadFavoriler(seciliProfil.value)
+        favoritiesViewModel.seciliProfiliGetir()
     }
 
     Scaffold(
-        topBar = { CustomTopAppBar("Favoriler") },
+        topBar = {
+            CustomTopAppBar(title = "Bootcamp Market", profiller.value, onProfileSelected = {
+                favoritiesViewModel.seciliProfil.value = it
+                favoritiesViewModel.loadFavoriler(seciliProfil.value)
+                Toast.makeText(navController.context, "Seçilen Profil: ${it}", Toast.LENGTH_SHORT).show()
+            })
+        },
         bottomBar = { CustomBottomBar(navController) }
-    ) {paddingValues ->
+    ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -56,14 +67,14 @@ fun FavoritesScreen(navController: NavController, favoritiesViewModel: Favoritie
                             fiyat = added.fiyat,
                             marka = added.marka,
                             siparisAdeti = 1,
-                            kullaniciAdi = "enes_topal",
+                            kullaniciAdi = seciliProfil.value,
                             context = navController.context
                         )
                     },
                     onRemoveFavori = {
                         favori.value = false
-                        favoritiesViewModel.removeFavoriler(urun.id, "enes_topal")
-                        favoritiesViewModel.loadFavoriler("enes_topal")
+                        favoritiesViewModel.removeFavoriler(urun.id, seciliProfil.value)
+                        favoritiesViewModel.loadFavoriler(seciliProfil.value)
                     }
                 )
             }

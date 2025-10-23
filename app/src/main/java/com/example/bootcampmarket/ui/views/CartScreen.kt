@@ -1,6 +1,7 @@
 package com.example.bootcampmarket.ui.views
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,18 +30,30 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
 
     var toplamTutar = urunler.value?.sumOf { (it.fiyat ?: 0) * (it.siparisAdeti ?: 0) } ?: 0
 
+    val profiller = cartViewModel.profiller.observeAsState(listOf())
+    val seciliProfil = cartViewModel.seciliProfil.observeAsState("")
+
     LaunchedEffect(urunler.value) {
-        cartViewModel.postSepet("enes_topal")
-//        urunler.value
-//            .filter { it.ad == "" }
-//            .forEach {
-//                Log.d("CartCleaning", "Silindi")
-//                cartViewModel.sepettenSil(it.id, "enes_topal") }
+        cartViewModel.getProfiles()
+        cartViewModel.seciliProfiliGetir()
+        cartViewModel.postSepet(seciliProfil.value)
+        /*
+        Null Ürün Silme
+         urunler.value
+        .filter { it.ad == "" }
+        .forEach {
+            Log.d("CartCleaning", "Silindi")
+            cartViewModel.sepettenSil(it.id, seciliProfil.value) }
+         */
         toplamTutar = urunler.value?.sumOf { (it.fiyat ?: 0) * (it.siparisAdeti ?: 0) } ?: 0
     }
 
     Scaffold(
-        topBar = { CustomTopAppBar(title = "Sepetim") },
+        topBar = { CustomTopAppBar(title = "Bootcamp Market", profiller.value, onProfileSelected = {
+            cartViewModel.seciliProfil.value = it
+            cartViewModel.postSepet(seciliProfil.value)
+            Toast.makeText(navController.context, "Seçilen Profil: ${it}", Toast.LENGTH_SHORT).show()
+        }) },
         bottomBar = { CustomBottomBar(navController) }
     ) { padding ->
         Column(
@@ -62,16 +75,16 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
                             urun = urun,
                             onArttir = {
                                 val yeniAdet = urun.siparisAdeti + 1
-                                cartViewModel.adetGuncelle(urun, yeniAdet,"enes_topal")
+                                cartViewModel.adetGuncelle(urun, yeniAdet,seciliProfil.value)
                             },
                             onAzalt = {
                                 val yeniAdet = urun.siparisAdeti - 1
                                 if (yeniAdet >= 1) {
-                                    cartViewModel.adetGuncelle(urun, yeniAdet,"enes_topal")
+                                    cartViewModel.adetGuncelle(urun, yeniAdet,seciliProfil.value)
                                 }
                             },
                             onSil = {
-                                cartViewModel.sepettenSil(urun.sepetId, "enes_topal")
+                                cartViewModel.sepettenSil(urun.sepetId, seciliProfil.value)
                             }
                         )
                     }
@@ -83,7 +96,7 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
                 )
 
                 Button(onClick = {
-                    cartViewModel.postSepet("enes_topal")
+                    cartViewModel.postSepet(seciliProfil.value)
                 }) {
                     Text(text = "Sepeti Güncelle")
                 }

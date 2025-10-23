@@ -1,9 +1,11 @@
 package com.example.bootcampmarket.ui.viewmodels
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.bootcampmarket.data.datasources.ProfileStore
 import com.example.bootcampmarket.data.entity.FavoriUrunler
 import com.example.bootcampmarket.data.entity.Urunler
 import com.example.bootcampmarket.data.repos.FavorilerRepository
@@ -17,12 +19,20 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     var urunlerRepository: urunlerRepository,
-    var favorilerRepository: FavorilerRepository
+    var favorilerRepository: FavorilerRepository,
+    var profileStore: ProfileStore
 ) : ViewModel() {
     var urunlerList = MutableLiveData<List<Urunler>>()
+    var profiller = MutableLiveData<List<String>>()
+
+    var seciliProfil = MutableLiveData<String>()
+
+
+
 
     init {
         loadUrunler()
+        getProfiller()
     }
 
     fun addFavoriler(
@@ -45,6 +55,7 @@ class MainViewModel @Inject constructor(
         context: Context
     ) {
         CoroutineScope(Dispatchers.Main).launch {
+            Log.d("Profile", "MainVM $kullaniciAdi")
             urunlerRepository.sepeteUrunEkle(
                 ad,
                 resim,
@@ -81,6 +92,28 @@ class MainViewModel @Inject constructor(
     fun removeFavoriler(id: Int, kullaniciAdi: String) {
         CoroutineScope(Dispatchers.Main).launch {
             favorilerRepository.delete(id, kullaniciAdi)
+        }
+    }
+
+    fun getProfiller() {
+        CoroutineScope(Dispatchers.Main).launch {
+            profiller.value = profileStore.tumProfilleriGetir()
+            if (profiller.value.isNotEmpty() && seciliProfil.value.isNullOrEmpty()) {
+                seciliProfil.value = profiller.value.first()
+            }
+        }
+    }
+
+    fun secilenProfiliAta(username: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            seciliProfil.value = username
+            profileStore.secilenProfiliAta(username)
+        }
+    }
+
+    fun seciliProfiliGetir() {
+        CoroutineScope(Dispatchers.Main).launch {
+            seciliProfil.value = profileStore.seciliProfiliGetir()
         }
     }
 

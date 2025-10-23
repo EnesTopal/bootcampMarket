@@ -1,5 +1,6 @@
 package com.example.bootcampmarket.ui.views
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +20,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,11 +41,21 @@ import com.example.bootcampmarket.ui.components.CustomBottomBar
 fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel, urun : Urunler) {
     val urunDetail = urun
     val adetCounter = remember { mutableIntStateOf(1) }
+    val profiller = detailViewModel.profiller.observeAsState(listOf())
+    val seciliProfil = detailViewModel.seciliProfil.observeAsState("")
+
+    LaunchedEffect(true) {
+        detailViewModel.getProfiller()
+        detailViewModel.seciliProfiliGetir()
+    }
 
 
 
     Scaffold(
-        topBar = { CustomTopAppBar(title = "Ürün Detayı") },
+        topBar = { CustomTopAppBar(title = "Bootcamp Market", profiller.value, onProfileSelected = {
+            detailViewModel.seciliProfil.value = it
+            Toast.makeText(navController.context, "Seçilen Profil: ${it}", Toast.LENGTH_SHORT).show()
+        }) },
         bottomBar = { CustomBottomBar(navController) }
     ) { padding ->
         urunDetail?.let { u ->
@@ -109,7 +122,7 @@ fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel,
                         fiyat = u.fiyat,
                         marka = u.marka,
                         siparisAdeti = adetCounter.value,
-                        kullaniciAdi = "enes_topal",
+                        kullaniciAdi = seciliProfil.value,
                         context = navController.context
                     )
                     adetCounter.value = 1

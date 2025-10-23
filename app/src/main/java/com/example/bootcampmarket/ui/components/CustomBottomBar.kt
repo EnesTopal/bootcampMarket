@@ -38,7 +38,7 @@ fun CustomBottomBar(navController: NavController) {
                     contentDescription = "favorites"
                 )
             }
-            IconButton(onClick = {}) {
+            IconButton(onClick = {navController.navigate("profilesScreen")}) {
                 Icon(
                     painter = painterResource(R.drawable.user_icon),
                     contentDescription = "profile"

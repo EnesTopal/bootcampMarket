@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.example.bootcampmarket.data.datasources.FavorilerDatasource
+import com.example.bootcampmarket.data.datasources.ProfileStore
 import com.example.bootcampmarket.data.datasources.UrunlerDatasource
 import com.example.bootcampmarket.data.repos.FavorilerRepository
 import com.example.bootcampmarket.data.repos.urunlerRepository
@@ -64,9 +65,20 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideFavorilerDao(@ApplicationContext context: Context): FavorilerDao {
+    fun provideFavorilerDao(context: Context): FavorilerDao {
         val db = Room.databaseBuilder(context, FavorilerDatabase::class.java, "favoriler.sqlite")
             .build()
         return db.getFavorilerDao()
     }
+
+    @Provides
+    @Singleton
+    fun provideContext(@ApplicationContext appContext: Context): Context {
+        return appContext
+    }
+
+    @Provides
+    @Singleton
+    fun provideProfileStore(context: Context): ProfileStore = ProfileStore(context)
+
 }

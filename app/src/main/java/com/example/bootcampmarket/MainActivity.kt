@@ -17,7 +17,9 @@ import com.example.bootcampmarket.ui.viewmodels.CartViewModel
 import com.example.bootcampmarket.ui.viewmodels.DetailViewModel
 import com.example.bootcampmarket.ui.viewmodels.FavoritiesViewModel
 import com.example.bootcampmarket.ui.viewmodels.MainViewModel
+import com.example.bootcampmarket.ui.viewmodels.ProfilesViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.getValue
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -25,13 +27,14 @@ class MainActivity : ComponentActivity() {
     val detailViewModel : DetailViewModel by viewModels()
     val cartViewModel : CartViewModel by viewModels()
     val favoritiesViewModel: FavoritiesViewModel by viewModels()
+    val profilesViewModel: ProfilesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             BootcampMarketTheme {
-                AppNavigation(mainViewModel,  cartViewModel, detailViewModel, favoritiesViewModel)
+                AppNavigation(mainViewModel,  cartViewModel, detailViewModel, favoritiesViewModel, profilesViewModel)
 
             }
         }

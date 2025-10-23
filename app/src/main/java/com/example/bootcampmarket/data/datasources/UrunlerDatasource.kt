@@ -17,6 +17,7 @@ class UrunlerDatasource(var urunlerDao: UrunlerDao) {
         siparisAdeti: Int,
         kullaniciAdi: String
     ) {
+        Log.d("Profile", "DataSource $kullaniciAdi")
         val sepetCheck = postSepet(kullaniciAdi)
         sepetCheck.find { it.ad == ad }?.let { urun ->
             val yeniAdet = urun.siparisAdeti + siparisAdeti
