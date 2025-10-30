@@ -70,7 +70,7 @@ fun ProfilesScreen(navController: NavController, profilesViewModel: ProfilesView
         ) {
             items(profiller.value) { profil ->
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(0.dp,5.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
                     Row(

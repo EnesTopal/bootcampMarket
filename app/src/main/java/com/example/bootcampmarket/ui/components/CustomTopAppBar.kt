@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import com.example.bootcampmarket.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,7 +30,7 @@ fun CustomTopAppBar(
         actions = {
             IconButton(onClick = { expanded.value = true }) {
                 Icon(
-                    imageVector = Icons.Default.FavoriteBorder, // istediğin icon
+                    painter = painterResource(R.drawable.user_icon),
                     contentDescription = "Profiller"
                 )
             }

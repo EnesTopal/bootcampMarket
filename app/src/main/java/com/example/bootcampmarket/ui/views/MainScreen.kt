@@ -62,8 +62,8 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel) {
                 contentPadding = PaddingValues(16.dp)
             ) {
                 items(urunler.value) { urun ->
-                    val favori = remember(urun.id) { mutableStateOf(false) }
-                    LaunchedEffect(key1 = urun.id) {
+                    val favori = remember(urun.id, seciliProfil.value) { mutableStateOf(false) }
+                    LaunchedEffect(key1 = urun.id, key2 = seciliProfil.value) {
                         mainViewModel.favorilerTablosundaVarmi(urun.id, seciliProfil.value, onResult = {
                             favori.value = it
                         })

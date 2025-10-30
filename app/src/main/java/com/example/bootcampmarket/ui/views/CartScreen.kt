@@ -51,8 +51,8 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
     Scaffold(
         topBar = { CustomTopAppBar(title = "Bootcamp Market", profiller.value, onProfileSelected = {
             cartViewModel.seciliProfil.value = it
-            cartViewModel.postSepet(seciliProfil.value)
             Toast.makeText(navController.context, "Seçilen Profil: ${it}", Toast.LENGTH_SHORT).show()
+            cartViewModel.postSepet(seciliProfil.value)
         }) },
         bottomBar = { CustomBottomBar(navController) }
     ) { padding ->
