@@ -55,7 +55,6 @@ class MainViewModel @Inject constructor(
         context: Context
     ) {
         CoroutineScope(Dispatchers.Main).launch {
-            Log.d("Profile", "MainVM $kullaniciAdi")
             urunlerRepository.sepeteUrunEkle(
                 ad,
                 resim,

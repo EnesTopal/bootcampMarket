@@ -17,7 +17,7 @@ class UrunlerDatasource(var urunlerDao: UrunlerDao) {
         siparisAdeti: Int,
         kullaniciAdi: String
     ) {
-        Log.d("Profile", "DataSource $kullaniciAdi")
+        Log.d("Profile", "DataSource $kullaniciAdi , $ad")
         val sepetCheck = postSepet(kullaniciAdi)
         sepetCheck.find { it.ad == ad }?.let { urun ->
             val yeniAdet = urun.siparisAdeti + siparisAdeti
@@ -29,6 +29,7 @@ class UrunlerDatasource(var urunlerDao: UrunlerDao) {
 
 
     suspend fun sepettenSil(id: Int, kullaniciAdi: String) {
+        Log.d("Profile", "Delete DataSource $kullaniciAdi , $id")
         urunlerDao.sepettenSil(id, kullaniciAdi)
     }
 

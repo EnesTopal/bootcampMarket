@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -28,15 +29,17 @@ import com.example.bootcampmarket.ui.viewmodels.CartViewModel
 fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
     val urunler = cartViewModel.urunlerList.observeAsState(emptyList())
 
-    var toplamTutar = urunler.value?.sumOf { (it.fiyat ?: 0) * (it.siparisAdeti ?: 0) } ?: 0
+    var toplamTutar = remember(urunler.value) {
+        urunler.value?.sumOf { (it.fiyat ?: 0) * (it.siparisAdeti ?: 0) } ?: 0
+    }
 
     val profiller = cartViewModel.profiller.observeAsState(listOf())
     val seciliProfil = cartViewModel.seciliProfil.observeAsState("")
 
-    LaunchedEffect(urunler.value) {
-        cartViewModel.getProfiles()
-        cartViewModel.seciliProfiliGetir()
-        cartViewModel.postSepet(seciliProfil.value)
+    LaunchedEffect(seciliProfil.value) {
+        if (seciliProfil.value.isNotEmpty()) {
+            cartViewModel.postSepet(seciliProfil.value)
+        }
         /*
         Null Ürün Silme
          urunler.value
@@ -50,9 +53,8 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
 
     Scaffold(
         topBar = { CustomTopAppBar(title = "Bootcamp Market", profiller.value, onProfileSelected = {
-            cartViewModel.seciliProfil.value = it
+            cartViewModel.secilenProfiliAta(it)
             Toast.makeText(navController.context, "Seçilen Profil: ${it}", Toast.LENGTH_SHORT).show()
-            cartViewModel.postSepet(seciliProfil.value)
         }) },
         bottomBar = { CustomBottomBar(navController) }
     ) { padding ->

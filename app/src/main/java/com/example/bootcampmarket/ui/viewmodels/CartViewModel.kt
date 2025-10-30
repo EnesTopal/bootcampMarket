@@ -24,6 +24,7 @@ class CartViewModel @Inject constructor(
 
     init {
         getProfiles()
+        seciliProfiliGetir()
 //        postSepet(seciliProfil.value)
     }
 

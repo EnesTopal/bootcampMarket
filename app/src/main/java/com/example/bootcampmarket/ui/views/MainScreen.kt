@@ -77,7 +77,6 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel) {
                             navController.navigate("detailScreen/${urunJson}")
                         },
                         onAddToCart = { added ->
-                            Log.d("Profile", "${seciliProfil.value}")
                             mainViewModel.sepeteUrunEkle(
                                 ad = added.ad,
                                 resim = added.resim,
