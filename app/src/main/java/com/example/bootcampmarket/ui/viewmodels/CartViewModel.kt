@@ -23,7 +23,7 @@ class CartViewModel @Inject constructor(
     var seciliProfil = MutableLiveData<String>()
 
     init {
-        getProfiles()
+        getProfiller()
         seciliProfiliGetir()
 //        postSepet(seciliProfil.value)
     }
@@ -50,7 +50,7 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun getProfiles() {
+    fun getProfiller() {
         CoroutineScope(Dispatchers.Main).launch {
             profiller.value = profileStore.tumProfilleriGetir()
             if (profiller.value.isNotEmpty() && seciliProfil.value.isNullOrEmpty()) {

@@ -51,8 +51,13 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
         toplamTutar = urunler.value?.sumOf { (it.fiyat ?: 0) * (it.siparisAdeti ?: 0) } ?: 0
     }
 
+    LaunchedEffect(Unit) {
+        cartViewModel.getProfiller()
+    }
+
+
     Scaffold(
-        topBar = { CustomTopAppBar(title = "Bootcamp Market", profiller.value, onProfileSelected = {
+        topBar = { CustomTopAppBar(title = "Sepet", profiller.value, onProfileSelected = {
             cartViewModel.secilenProfiliAta(it)
             Toast.makeText(navController.context, "Seçilen Profil: ${it}", Toast.LENGTH_SHORT).show()
         }) },

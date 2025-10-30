@@ -49,10 +49,14 @@ fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel,
         detailViewModel.seciliProfiliGetir()
     }
 
+    LaunchedEffect(Unit) {
+        detailViewModel.getProfiller()
+    }
+
 
 
     Scaffold(
-        topBar = { CustomTopAppBar(title = "Bootcamp Market", profiller.value, onProfileSelected = {
+        topBar = { CustomTopAppBar(title = "Detay", profiller.value, onProfileSelected = {
             detailViewModel.seciliProfil.value = it
             Toast.makeText(navController.context, "Seçilen Profil: ${it}", Toast.LENGTH_SHORT).show()
         }) },

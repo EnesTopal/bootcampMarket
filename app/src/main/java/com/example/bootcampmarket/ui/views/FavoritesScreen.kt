@@ -33,9 +33,13 @@ fun FavoritesScreen(navController: NavController, favoritiesViewModel: Favoritie
         }
     }
 
+    LaunchedEffect(Unit) {
+        favoritiesViewModel.getProfiller()
+    }
+
     Scaffold(
         topBar = {
-            CustomTopAppBar(title = "Bootcamp Market", profiller.value, onProfileSelected = {
+            CustomTopAppBar(title = "Favoriler", profiller.value, onProfileSelected = {
                 favoritiesViewModel.secilenProfiliAta(it)
                 favoritiesViewModel.loadFavoriler(seciliProfil.value)
                 Toast.makeText(navController.context, "Seçilen Profil: ${it}", Toast.LENGTH_SHORT).show()

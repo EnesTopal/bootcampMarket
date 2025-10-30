@@ -28,7 +28,7 @@ class FavoritiesViewModel @Inject constructor(
     init {
         getProfiller()
         seciliProfiliGetir()
-//        loadFavoriler(kullaniciAdi = seciliProfil.value)
+//        loadFavoriler(seciliProfil.value)
     }
 
     fun loadFavoriler(kullaniciAdi: String) {
@@ -71,8 +71,12 @@ class FavoritiesViewModel @Inject constructor(
     fun getProfiller() {
         CoroutineScope(Dispatchers.Main).launch {
             profiller.value = profileStore.tumProfilleriGetir()
+            seciliProfiliGetir()
             if (profiller.value.isNotEmpty() && seciliProfil.value.isNullOrEmpty()) {
                 seciliProfil.value = profiller.value.first()
+                loadFavoriler(kullaniciAdi = seciliProfil.value)
+            }
+            else{
                 loadFavoriler(kullaniciAdi = seciliProfil.value)
             }
         }
