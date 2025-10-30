@@ -27,6 +27,7 @@ class FavoritiesViewModel @Inject constructor(
 
     init {
         getProfiller()
+        seciliProfiliGetir()
 //        loadFavoriler(kullaniciAdi = seciliProfil.value)
     }
 

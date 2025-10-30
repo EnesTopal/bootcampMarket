@@ -27,16 +27,16 @@ fun FavoritesScreen(navController: NavController, favoritiesViewModel: Favoritie
     val profiller = favoritiesViewModel.profiller.observeAsState(listOf())
     val seciliProfil = favoritiesViewModel.seciliProfil.observeAsState("")
 
-    LaunchedEffect(true) {
-        favoritiesViewModel.getProfiller()
-        favoritiesViewModel.loadFavoriler(seciliProfil.value)
-        favoritiesViewModel.seciliProfiliGetir()
+    LaunchedEffect(seciliProfil.value) {
+        if (seciliProfil.value.isNotEmpty()) {
+            favoritiesViewModel.loadFavoriler(seciliProfil.value)
+        }
     }
 
     Scaffold(
         topBar = {
             CustomTopAppBar(title = "Bootcamp Market", profiller.value, onProfileSelected = {
-                favoritiesViewModel.seciliProfil.value = it
+                favoritiesViewModel.secilenProfiliAta(it)
                 favoritiesViewModel.loadFavoriler(seciliProfil.value)
                 Toast.makeText(navController.context, "Seçilen Profil: ${it}", Toast.LENGTH_SHORT).show()
             })
